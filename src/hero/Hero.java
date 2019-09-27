@@ -3,16 +3,109 @@ package hero;
 import item.base.Item;
 
 public class Hero {
+	protected Item[] inventory;
+	protected int inventorySize;
+	protected String name;
+	protected int hp;
+	protected int attack;
+	protected int defense;
 	public Hero(String name, int hp, int attack, int defense, int inventorySize) {
+		setHp(hp);
+		if(inventorySize < 1 )
+		{
+			this.inventorySize = 1;
+		}
+		else if (inventorySize > 6)
+		{
+			this.inventorySize = 6;
+		}
+		else 
+		{
+			this.inventorySize = inventorySize;
+		}
+		setAttack(attack);
+		setDefense(defense);
+		this.inventory = new Item[inventorySize];
 	}
 
 	public Item[] getInventory() {
+		return this.inventory.clone();
+	}
+	public int getDefense() {
+		return this.defense;
+	}
+	public int getAttack() {
+		return this.attack;
+	}
+	public int getInventorySize()
+	{
+		return this.inventorySize;
 	}
 
 	public int equipItem(Item item) /* you might want to add something here */ {
+		int i;
+		boolean check = false;
+		for(i=0;i<this.inventorySize;i++)
+		{
+			if(this.inventory[i]==null)
+			{
+				this.inventory[i] = item;
+				check = true;
+				break;
+			}
+		}
+		if (!check){
+		 new EquipItemFailedException("Hero inventory is full");
+		}
+		return i;
 	}
 
-	public Item unequipItem(int slotNumber) /* you might want to add something here */ {
+	public Item unequipItem(int slotNumber) throws UnequipItemFailedException/* you might want to add something here */ {
+	if(slotNumber >= this.inventorySize)
+	{
+		throw new UnequipItemFailedException("Hero does not have that many slots");
+	}
+	else if (this.inventory[slotNumber]==null)
+	{
+		throw new UnequipItemFailedException("No item in that slot");
+	}
+		return this.inventory[slotNumber];
+	
+	
+	}
+	public void setHp(int hp)
+	{
+		if(hp<1)
+		{
+			this.hp=1;
+		}
+		else {
+			this.hp = hp;
+		}
+	}
+	public int getHp() {
+		return this.hp;
+	}
+	public String getName() {
+		return this.name;
+	}
+	public void setAttack(int attack)
+	{
+		if(attack < 1)
+		{
+			this.attack=1;
+		}
+		else {
+			this.attack = attack;
+		}
+	}
+	public void setDefense(int defense){
+		if(defense < 1) {
+			this.defense = 1;
+		}
+		else {
+			this.defense = defense;
+		}
 	}
 
 	@Override

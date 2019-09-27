@@ -2,7 +2,12 @@ package item.base;
 
 // you CAN modify the first line
 public class Item {	
-	public Item(String name, String description) {}
+	protected String name;
+	protected String description;
+	public Item(String name, String description) {
+		this.name = name;
+		this.description = description;
+	}
 	
 	@Override
 	public String toString() {
@@ -16,6 +21,10 @@ public class Item {
 				.toString();
 	}
 	
-	public String getName() {}
-	public String getDescription() {}
+	public String getName() {
+		return this.name;
+	}
+	public String getDescription() {
+		return this.description;
+	}
 }
