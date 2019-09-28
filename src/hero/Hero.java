@@ -30,7 +30,8 @@ public class Hero {
 	}
 
 	public Item[] getInventory() {
-		return this.inventory.clone();
+		Item[] cloning = this.inventory.clone();
+		return cloning;
 	}
 	public int getDefense() {
 		return this.defense;
