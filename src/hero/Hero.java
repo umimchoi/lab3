@@ -3,14 +3,15 @@ package hero;
 import item.base.Item;
 
 public class Hero {
-	protected Item[] inventory;
-	protected int inventorySize;
-	protected String name;
-	protected int hp;
-	protected int attack;
-	protected int defense;
+	public Item[] inventory;
+	public int inventorySize;
+	public String name;
+	public int hp;
+	public int attack;
+	public int defense;
 	public Hero(String name, int hp, int attack, int defense, int inventorySize) {
 		setHp(hp);
+		this.name = name;
 		if(inventorySize < 1 )
 		{
 			this.inventorySize = 1;
@@ -42,7 +43,7 @@ public class Hero {
 		return this.inventorySize;
 	}
 
-	public int equipItem(Item item) /* you might want to add something here */ {
+	public int equipItem(Item item) throws EquipItemFailedException  /* you might want to add something here */ {
 		int i;
 		boolean check = false;
 		for(i=0;i<this.inventorySize;i++)
@@ -51,11 +52,13 @@ public class Hero {
 			{
 				this.inventory[i] = item;
 				check = true;
+				this.inventorySize --;
+				item.applyBonuses(this);
 				break;
 			}
 		}
 		if (!check){
-		 new EquipItemFailedException("Hero inventory is full");
+		throw new EquipItemFailedException("Hero inventory is full");
 		}
 		return i;
 	}
@@ -69,8 +72,11 @@ public class Hero {
 	{
 		throw new UnequipItemFailedException("No item in that slot");
 	}
-		return this.inventory[slotNumber];
-	
+	this.inventory[slotNumber].unapplyBonuses(this);
+	Item unequip = this.inventory[slotNumber];
+	this.inventory[slotNumber] = null;
+	this.inventorySize++;
+		return unequip;
 	
 	}
 	public void setHp(int hp)
@@ -91,21 +97,11 @@ public class Hero {
 	}
 	public void setAttack(int attack)
 	{
-		if(attack < 1)
-		{
-			this.attack=1;
-		}
-		else {
 			this.attack = attack;
-		}
 	}
 	public void setDefense(int defense){
-		if(defense < 1) {
-			this.defense = 1;
-		}
-		else {
 			this.defense = defense;
-		}
+		
 	}
 
 	@Override

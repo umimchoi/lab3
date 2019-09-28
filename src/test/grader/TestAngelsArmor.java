@@ -11,13 +11,15 @@ import item.items.AngelsArmor;
 
 public class TestAngelsArmor {
 	
-	Hero hero;
-	AngelsArmor armor;
+	Hero hero,hero2;
+	AngelsArmor armor,armor2;
 	
 	@Before
 	public void setUp() {
 		hero = new Hero("testHero", 1, 0, 0, 6);
+		hero2 = new Hero("testHero2", 1, 0, 0, 6);
 		armor = new AngelsArmor();
+		armor2 = new AngelsArmor();
 	}
 	
 	@Test
@@ -38,11 +40,14 @@ public class TestAngelsArmor {
 	public void testEquip() {
 		try {
 			hero.equipItem(armor);
+			hero2.equipItem(armor2);
+			armor2.upgrade();
 		} catch (EquipItemFailedException e) {
 			fail("equipItem throws error");
 		}
 		assertEquals(0, hero.getAttack());
 		assertEquals(10, hero.getDefense());
 		assertEquals(1, hero.getHp());
+		assertEquals(2, armor2.getUpgradeLevel());
 	}
 }

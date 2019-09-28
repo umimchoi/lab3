@@ -25,9 +25,11 @@ public class UnequipItem extends ShopApp {
 		int choice = this.getChoice(1, hero.getInventorySize(), () -> this.prompt());
 		
 		// TODO: handle the UnequipError!
-			items.add(hero.unequipItem(choice - 1));
+		try {
+			items.add(hero.unequipItem(choice - 1));}
 		// If fail to unequip
-			out.println("Unequip item failed, " + /* reason the unequip failed */);
+		catch (hero.UnequipItemFailedException e) {
+			out.println("Unequip item failed, " + e.message /* reason the unequip failed */);}
 	}
 	
 	public void prompt() {

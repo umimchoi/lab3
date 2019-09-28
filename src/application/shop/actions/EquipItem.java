@@ -23,13 +23,15 @@ public class EquipItem extends ShopApp {
 	public void run() {
 		Item item = getItemChoice(this.items, () -> this.prompt());
 		// TODO: handle the EquipItemFailedException
+		try {
 			int slot = hero.equipItem(item);
 			out.println("Equipped " + item.getName() + " to slot " + slot);
-			items.remove(item);
+			items.remove(item);}
 		// If the equip fails
-			out.println("Equip item failed, " + /* reason the equip failed */);
+		catch (hero.EquipItemFailedException e){
+			out.println("Equip item failed, " + e.message/* reason the equip failed */);}
 		}
-	}
+	
 	
 	public void prompt() {
 		out.println("Select item");

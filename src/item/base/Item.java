@@ -1,7 +1,9 @@
 package item.base;
 
+import hero.Hero;
+
 // you CAN modify the first line
-public class Item {	
+public abstract class Item {	
 	protected String name;
 	protected String description;
 	public Item(String name, String description) {
@@ -27,4 +29,6 @@ public class Item {
 	public String getDescription() {
 		return this.description;
 	}
+	public abstract void applyBonuses(Hero hero);
+	public abstract void unapplyBonuses(Hero hero);
 }
